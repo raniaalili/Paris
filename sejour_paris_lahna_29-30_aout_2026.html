@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff6fae">
+<title>Lahna's Paris Quest — 29·30 août 2026</title>
+<style>
+:root{
+  --ink:#1f2030; --cream:#fffaf3; --paper:#fffdf8; --muted:#6f7182;
+  --pink:#ff6fae; --pink2:#ffd3e5; --lav:#c8b6ff; --blue:#a9dcff;
+  --gold:#d59b2a; --burg:#6f1739; --red:#ff5d5d; --green:#55b88a;
+  --shadow:0 14px 34px rgba(40,25,50,.12);
+  --r:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font-family:Inter, ui-rounded, "SF Pro Rounded", system-ui, -apple-system, Segoe UI, sans-serif;
+  background:
+   radial-gradient(circle at 20% 0%, #ffe3ef 0 14%, transparent 35%),
+   radial-gradient(circle at 95% 10%, #e7ddff 0 12%, transparent 30%),
+   #f8f5f0;
+}
+button,a{font:inherit}
+a{color:inherit}
+.app{max-width:880px;margin:auto;padding:14px 14px 110px}
+.hero{
+  position:relative; overflow:hidden; min-height:330px; padding:28px 24px;
+  border-radius:34px; background:linear-gradient(135deg,#ff7eb6,#ffb6d2 44%,#c8b6ff 100%);
+  box-shadow:var(--shadow); color:#241626;
+}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(.2px)}
+.hero:before{width:170px;height:170px;background:#fff7;right:-35px;top:-45px}
+.hero:after{width:115px;height:115px;background:#ffe77a99;left:-25px;bottom:-40px}
+.kicker{font-size:12px;font-weight:900;letter-spacing:.17em;text-transform:uppercase}
+h1{font-size:clamp(36px,9vw,70px);line-height:.92;margin:20px 0 12px;letter-spacing:-.055em}
+.subtitle{font-size:17px;max-width:560px;line-height:1.45}
+.stickers{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;flex-wrap:wrap;max-width:210px;justify-content:flex-end}
+.sticker{background:#fff;border:2px solid #27222a;border-radius:999px;padding:7px 11px;font-weight:900;font-size:12px;transform:rotate(-4deg);box-shadow:3px 4px 0 #29242d}
+.sticker:nth-child(2){transform:rotate(4deg);background:#fff2a6}
+.sticker:nth-child(3){transform:rotate(-2deg);background:#d9f4ff}
+
+.travel{
+  margin-top:14px; display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center;
+  background:#fff; padding:18px; border-radius:24px; box-shadow:var(--shadow);
+}
+.station b{display:block;font-size:18px}.station small{color:var(--muted)}
+.arrow{font-size:26px}.datepill{display:inline-block;margin-top:7px;background:#f0ecff;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}
+
+.nav{
+ position:sticky;top:8px;z-index:10;margin:16px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;
+ background:#ffffffd9;backdrop-filter:blur(15px);border:1px solid #fff;padding:7px;border-radius:20px;box-shadow:0 8px 22px #0001;
+}
+.nav button{border:0;background:transparent;padding:11px 4px;border-radius:14px;font-weight:850;color:#666;cursor:pointer}
+.nav button.active{background:#211b28;color:#fff}
+
+.panel{display:none}.panel.active{display:block}
+.dayhead{
+  margin:18px 0 12px; border-radius:30px; padding:24px; color:#231928; box-shadow:var(--shadow); position:relative;overflow:hidden;
+}
+.day1{background:linear-gradient(135deg,#ffe4f0,#dff7ff 53%,#e9e0ff)}
+.day2{background:linear-gradient(135deg,#f8e8ca,#f8d8cf 48%,#e8ccd3)}
+.dayhead h2{font-size:34px;line-height:1;margin:7px 0 8px;letter-spacing:-.04em}
+.dayhead p{margin:0;line-height:1.45;max-width:620px}
+.themechips{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+.chip{font-size:12px;font-weight:850;background:#fff9;border:1px solid #fff;border-radius:999px;padding:7px 10px}
+
+.timeline{position:relative;margin:16px 0}
+.timeline:before{content:"";position:absolute;left:24px;top:22px;bottom:30px;width:3px;background:#ded9df;border-radius:5px}
+.card{
+ position:relative;margin:0 0 12px 58px;background:var(--paper);border:1px solid #fff;border-radius:var(--r);padding:18px;
+ box-shadow:0 8px 25px #33234212;
+}
+.card:before{content:"";position:absolute;left:-44px;top:21px;width:17px;height:17px;border-radius:50%;background:#fff;border:5px solid var(--pink);box-shadow:0 0 0 4px #f8f5f0}
+.day2panel .card:before{border-color:var(--burg)}
+.time{font-size:13px;font-weight:950;letter-spacing:.08em;color:#8b6074;text-transform:uppercase}
+.place{font-size:22px;font-weight:950;margin:5px 0 5px;letter-spacing:-.025em}
+.desc{color:#5f5b66;line-height:1.48;margin:0}
+.meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.badge{font-size:11px;font-weight:850;background:#f3eef6;border-radius:999px;padding:6px 9px}
+.mission{
+ margin-top:13px;padding:12px 13px;border-radius:16px;background:#fff3f8;border:1px dashed #ff9bc3;font-size:13px;line-height:1.4
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border:0;border-radius:13px;padding:9px 11px;font-size:12px;font-weight:900;background:#211b28;color:#fff;cursor:pointer}
+.btn.ghost{background:#f0ecf3;color:#312a36}
+.checkline{display:flex;align-items:center;gap:9px;margin-top:12px;font-size:12px;color:#65606b;font-weight:750}
+.checkline input{width:20px;height:20px;accent-color:var(--pink)}
+
+.night{
+ background:#211927;color:#fff;border-radius:28px;padding:23px;margin:18px 0;box-shadow:var(--shadow);position:relative;overflow:hidden
+}
+.night:after{content:"✦";position:absolute;font-size:100px;opacity:.07;right:15px;top:-25px}
+.night h3{font-size:26px;margin:0 0 8px}.night p{color:#ded4e1;line-height:1.5}
+.nightgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:13px}
+.nightitem{background:#ffffff12;border:1px solid #ffffff18;border-radius:16px;padding:12px;font-size:13px;font-weight:750}
+
+.progressbox{background:#fff;border-radius:24px;padding:18px;box-shadow:var(--shadow);margin-top:14px}
+.progressbar{height:12px;background:#eee8ef;border-radius:999px;overflow:hidden}
+.progressfill{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--lav));transition:.25s}
+.progresslabel{display:flex;justify-content:space-between;font-weight:900;margin-bottom:8px}
+
+.traincard{background:#fff;border-radius:26px;padding:20px;box-shadow:var(--shadow);margin:12px 0}
+.trainline{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
+.bigtime{font-size:29px;font-weight:950;letter-spacing:-.04em}.traincity{font-weight:900}.trainarrow{font-size:25px}
+.notice{margin-top:12px;background:#fff4ca;border-radius:15px;padding:12px;font-size:13px;line-height:1.4}
+.small{font-size:12px;color:var(--muted);line-height:1.45}
+
+.questgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quest{background:#fff;border-radius:20px;padding:16px;box-shadow:0 7px 20px #0000000d}
+.quest .emoji{font-size:28px}.quest b{display:block;margin:7px 0 3px}.quest small{color:var(--muted)}
+
+.footer{text-align:center;color:#8a8490;font-size:11px;margin:30px 0}
+@media(max-width:600px){
+  .app{padding:10px 10px 100px}.hero{min-height:355px;padding:24px 19px}.stickers{right:12px;bottom:13px}
+  .travel{grid-template-columns:1fr auto 1fr;padding:15px}.station b{font-size:14px}
+  .nav{grid-template-columns:repeat(4,1fr)}.nav button{font-size:11px}
+  .card{margin-left:49px;padding:16px}.timeline:before{left:19px}.card:before{left:-39px}
+  .nightgrid,.questgrid{grid-template-columns:1fr}.dayhead h2{font-size:30px}
+}
+@media print{
+  body{background:#fff}.nav{display:none}.panel{display:block!important}.app{max-width:none;padding:0}.hero,.travel,.dayhead,.card,.night,.traincard,.progressbox{box-shadow:none;break-inside:avoid}.actions,.checkline{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<section class="hero">
+  <div class="kicker">week-end secret • paris • 2026</div>
+  <h1>Lahna's<br>Paris Quest</h1>
+  <div class="subtitle">Deux jours, deux univers : <b>kawaii Tokyo × Séoul</b> puis <b>Paris merveilleux & fête foraine</b>. Des missions à cocher, des surprises à garder fermées jusqu'au soir, et deux films pour finir la journée.</div>
+  <div class="stickers">
+    <span class="sticker">29—30 AOÛT</span>
+    <span class="sticker">13 ANS ✦</span>
+    <span class="sticker">PARIS ONLY</span>
+  </div>
+</section>
+
+<section class="travel">
+  <div class="station"><small>Samedi 29</small><b>Marseille</b><span class="datepill">06:55</span></div>
+  <div class="arrow">→</div>
+  <div class="station" style="text-align:right"><small>Arrivée</small><b>Paris Gare de Lyon</b><span class="datepill">10:46</span></div>
+</section>
+
+<nav class="nav">
+  <button class="active" data-tab="d1">JOUR 1</button>
+  <button data-tab="d2">JOUR 2</button>
+  <button data-tab="quests">MISSIONS</button>
+  <button data-tab="train">TRAIN</button>
+</nav>
+
+<section id="d1" class="panel active">
+  <header class="dayhead day1">
+    <div class="kicker">samedi 29 août</div>
+    <h2>🎀 Kawaii Quest</h2>
+    <p>Arrivée à Paris à 10:46. On garde une vraie marge pour sortir de la gare, déposer les affaires et commencer la journée sans courir.</p>
+    <div class="themechips"><span class="chip">🇯🇵 Japon pop</span><span class="chip">🛍️ mini missions</span><span class="chip">📸 photobooth</span><span class="chip">🍜 soirée ramen</span></div>
+  </header>
+
+  <div class="timeline">
+    <article class="card">
+      <div class="time">10:46 — 11:45</div><div class="place">🚆 Arrivée + dépôt des affaires</div>
+      <p class="desc">Sortie de Gare de Lyon, trajet et installation. L'idée : commencer à midi avec de l'énergie, pas avec la sensation de courir après le planning.</p>
+      <div class="meta"><span class="badge">buffer volontaire</span><span class="badge">zéro stress</span></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-arrivee"> On est prêtes ✨</label>
+    </article>
+
+    <article class="card">
+      <div class="time">12:00 — 13:00</div><div class="place">🇯🇵 Super Japon — Le Bon Marché</div>
+      <p class="desc">Premier jour de l'événement : le grand magasin passe en mode Japon, avec univers konbini, papeterie, objets kawaii et beauté japonaise.</p>
+      <div class="mission"><b>Mission :</b> repérer le truc le plus adorable du magasin… sans obligation de l'acheter.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Le+Bon+March%C3%A9+24+rue+de+S%C3%A8vres+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-bonmarche"> Japon débloqué 🇯🇵</label>
+    </article>
+
+    <article class="card">
+      <div class="time">13:20 — 14:00</div><div class="place">🍣 C'Roll Sushi — Push Pop</div>
+      <p class="desc">Le déjeuner TikTok demandé : sushi en tube transparent. On mange raisonnablement pour garder de la place pour Taozi.</p>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=C%27Roll+Sushi+156+rue+Saint-Martin+Paris" target="_blank">📍 Ouvrir la carte</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-croll"> Sushi tube testé 🍣</label>
+    </article>
+
+    <article class="card">
+      <div class="time">14:30 — 15:25</div><div class="place">🎁 MINISO LAND — Champs-Élysées</div>
+      <p class="desc">La grande chasse à la blind box commence. Prends le temps de visiter : peluches, figurines, petits gadgets et rayons à inspecter.</p>
+      <div class="mission"><b>MISSION BLIND BOX :</b> choisir <u>une seule</u> boîte. Budget conseillé : 10–15 €. <b>Interdiction absolue de l'ouvrir avant ce soir.</b></div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=MINISO+LAND+104+avenue+des+Champs-%C3%89lys%C3%A9es+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-miniso"> Blind box capturée 🎁</label>
+    </article>
+
+    <article class="card">
+      <div class="time">15:30 — 16:00</div><div class="place">🧴 MOIDA — K-Beauty</div>
+      <p class="desc">Juste après MINISO, on reste sur les Champs. Grande boutique K-beauty : pas besoin d'acheter beaucoup, le but est de trouver le masque du soir.</p>
+      <div class="mission"><b>MISSION SKINCARE :</b> chacune choisit un masque pour l'autre. Budget conseillé : 3–6 €.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=MOIDA+30+avenue+des+Champs-%C3%89lys%C3%A9es+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-moida"> Masques choisis 🫧</label>
+    </article>
+
+    <article class="card">
+      <div class="time">16:10 — 16:50</div><div class="place">🍓 Taozi Pâtisserie</div>
+      <p class="desc">Goûter asiatique très visuel. Choisissez deux créations différentes à partager plutôt qu'un énorme goûter.</p>
+      <div class="mission"><b>Mini-défi :</b> prendre chacune quelque chose que vous n'avez jamais goûté.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Taozi+P%C3%A2tisserie+32+rue+Jean+Mermoz+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-taozi"> Nouvelle pâtisserie testée ✨</label>
+    </article>
+
+    <article class="card">
+      <div class="time">17:30 — 18:15</div><div class="place">📸 KPSUL Photobooth</div>
+      <p class="desc">Le moment souvenir. Le samedi, KPSUL est ouvert jusqu'à 22h : le créneau laisse donc une marge confortable.</p>
+      <div class="mission"><b>Mission photo :</b> 1 série jolie + 1 série où aucune dignité n'est autorisée.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=KPSUL+27+rue+Marguerite+de+Rochechouart+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-kpsul"> Photos récupérées 📸</label>
+    </article>
+
+    <article class="card">
+      <div class="time">18:35 — 19:15</div><div class="place">🍜 YUMMYSO — Gare de l'Est</div>
+      <p class="desc">Dernière mission : composer la soirée dans l'épicerie kawaii. Cette boutique est ouverte jusqu'à 22h le samedi.</p>
+      <div class="mission"><b>MISSION DÎNER :</b> 1 ramen chacune + 1 boisson + 1 snack mystère choisi pour l'autre. Rien ne s'ouvre avant la maison.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=YUMMYSO+8+rue+du+8+Mai+1945+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d1-yummiso"> Ramen & snacks trouvés 🍜</label>
+    </article>
+
+    <article class="card">
+      <div class="time">19:15 — retour</div><div class="place">🍩 Krispy Kreme à emporter</div>
+      <p class="desc">Prenez simplement une petite boîte sur le trajet retour. Elle reste fermée jusqu'au film.</p>
+      <label class="checkline"><input type="checkbox" data-key="d1-donuts"> Donuts sécurisés 🍩</label>
+    </article>
+  </div>
+
+  <section class="night">
+    <h3>🌙 Soirée 1 — Kawaii Night</h3>
+    <p>Objectif : rentrer vers 20h, douche + pyjama, puis ouvrir progressivement tout ce qui a été collecté dans la journée.</p>
+    <div class="nightgrid">
+      <div class="nightitem">🍜 Préparer les ramen</div>
+      <div class="nightitem">🧴 Découvrir les masques</div>
+      <div class="nightitem">🍬 Échanger les snacks mystère</div>
+      <div class="nightitem">🎁 Unboxing blind box</div>
+      <div class="nightitem">📸 Revoir les photos KPSUL</div>
+      <div class="nightitem">🍩 Krispy Kreme</div>
+    </div>
+    <p style="margin-bottom:0"><b>Film :</b> 🦈 <i>Gang de requins</i> — puis dodo assez tôt pour attaquer le dimanche.</p>
+  </section>
+</section>
+
+<section id="d2" class="panel day2panel">
+  <header class="dayhead day2">
+    <div class="kicker">dimanche 30 août</div>
+    <h2>🎠 Paris merveilleux</h2>
+    <p>Le Paris des objets impossibles, des trésors, des manèges anciens et des gâteaux qui mentent. Et le soir : mini fête foraine à la maison.</p>
+    <div class="themechips"><span class="chip">🪙 chasse au trésor</span><span class="chip">🎠 Belle Époque</span><span class="chip">🎪 trompe-l'œil</span><span class="chip">🍫 Willy Wonka</span></div>
+  </header>
+
+  <div class="timeline">
+    <article class="card">
+      <div class="time">08:15 — 09:00</div><div class="place">🎀 Baguett × Hello Kitty</div>
+      <p class="desc">Dernier jour de la collaboration Hello Kitty. Le dimanche, la boulangerie ouvre à 8h : parfait pour commencer tôt sans stress.</p>
+      <div class="mission"><b>Conseil :</b> une pâtisserie signature + une boisson. Gardez de l'appétit pour Crispy Soul et ABRA.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Baguett+33+rue+Coquilli%C3%A8re+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d2-kitty"> Hello Kitty validée 🎀</label>
+    </article>
+
+    <article class="card">
+      <div class="time">09:00 — 10:30</div><div class="place">🗝️ Mini Paris secret — gratuit</div>
+      <p class="desc">Comme la Monnaie ouvre à 11h, on utilise le matin pour une vraie promenade “Arsène Lupin” sans payer d'activité supplémentaire.</p>
+      <div class="mission"><b>Parcours conseillé :</b> Palais-Royal → Colonnes de Buren → Galerie Vivienne → quais → Pont des Arts → arrivée à la Monnaie vers 10:40.</div>
+      <label class="checkline"><input type="checkbox" data-key="d2-walk"> Passage secret terminé 🗝️</label>
+    </article>
+
+    <article class="card">
+      <div class="time">10:40 arrivée • 11:00 — ~12:20</div><div class="place">🪙 Monnaie de Paris — Opération M.I.D.A.S</div>
+      <p class="desc">Chasse au trésor à partir de 12 ans : documents alchimistes secrets, métal à transformer en or, énigmes dans le musée. L'entrée au musée est incluse.</p>
+      <div class="mission"><b>Créneau conseillé :</b> 11:00. Arrivez 15–20 min avant pour récupérer le livret et démarrer sereinement.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Monnaie+de+Paris+11+quai+de+Conti+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d2-midas"> L'or a été trouvé 🪙</label>
+    </article>
+
+    <article class="card">
+      <div class="time">12:45 — 13:35</div><div class="place">🧇 Crispy Soul — Paris 2</div>
+      <p class="desc">Déjeuner fun et halal : poulet frit + waffle burger, dans une ambiance rap/basket. Ouvert le dimanche dès midi.</p>
+      <div class="mission"><b>Le truc à tester :</b> le waffle burger — le pain est remplacé par deux gaufres maison.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Crispy+Soul+289+rue+Saint-Denis+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d2-crispy"> Waffle burger testé 🧇</label>
+    </article>
+
+    <article class="card">
+      <div class="time">13:35 — 14:20</div><div class="place">🚇 Trajet vers Bercy</div>
+      <p class="desc">On garde presque 45 minutes pour le trajet et une arrivée en avance. Le Musée des Arts Forains ne se visite que sur réservation.</p>
+      <div class="meta"><span class="badge">objectif : être devant vers 14:20</span></div>
+    </article>
+
+    <article class="card">
+      <div class="time">14:30 — ~16:00</div><div class="place">🎠 Musée des Arts Forains</div>
+      <p class="desc">Le gros “wahou” de la journée : anciens chais de Bercy, manèges historiques, automates, jeux forains et décors de spectacle.</p>
+      <div class="mission"><b>Créneau idéal :</b> réserve 14:30 si disponible. Si ton billet est à une autre heure, décale simplement Crispy Soul et la promenade du matin.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Mus%C3%A9e+des+Arts+Forains+53+avenue+des+Terroirs+de+France+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d2-forains"> Retour dans la fête foraine 🎠</label>
+    </article>
+
+    <article class="card">
+      <div class="time">16:45 — 17:30</div><div class="place">🎪 ABRA Pâtisserie</div>
+      <p class="desc">Le goûter “rien n'est ce qu'il paraît”. Après les Arts Forains, le Chapiteau Cirque est le choix évident si disponible.</p>
+      <div class="mission"><b>Jeu :</b> prendre deux trompe-l'œil différents à partager et deviner ce qu'ils cachent avant la première bouchée.</div>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=ABRA+P%C3%A2tisserie+1+rue+des+Mauvais+Gar%C3%A7ons+Paris" target="_blank">📍 Itinéraire</a></div>
+      <label class="checkline"><input type="checkbox" data-key="d2-abra"> Trompe-l'œil démasqué 🎪</label>
+    </article>
+
+    <article class="card">
+      <div class="time">17:30 — 18:30</div><div class="place">🏠 Retour + mini courses</div>
+      <p class="desc">Pas de sixième attraction : demain le train part très tôt. On rentre, on achète juste ce qu'il manque pour le plateau fête foraine et on se pose.</p>
+      <div class="mission"><b>À prendre :</b> pains hot-dog, saucisses halal, cheddar, oignons crispy, nachos, salsa, guacamole et boissons.</div>
+      <label class="checkline"><input type="checkbox" data-key="d2-courses"> Fête foraine prête 🌭</label>
+    </article>
+  </div>
+
+  <section class="night">
+    <h3>🎡 Soirée 2 — Mini fête foraine</h3>
+    <p>Retour tôt, pyjama, plateau à partager. L'idée n'est plus de “faire Paris”, mais de finir la journée dans le même univers.</p>
+    <div class="nightgrid">
+      <div class="nightitem">🌭 Hot-dogs halal</div>
+      <div class="nightitem">🧀 Nachos + cheddar</div>
+      <div class="nightitem">🥑 Guacamole & salsa</div>
+      <div class="nightitem">🥤 Boissons fraîches</div>
+    </div>
+    <p><b>19:15 environ :</b> lancement du film 🍫 <i>Charlie et la Chocolaterie</i> (2005).</p>
+    <p style="margin-bottom:0"><b>Objectif :</b> film fini vers 21:10–21:20, affaires prêtes, puis coucher immédiatement.</p>
+  </section>
+</section>
+
+<section id="quests" class="panel">
+  <header class="dayhead day1">
+    <div class="kicker">ton carnet de mission</div>
+    <h2>✨ Les Quêtes</h2>
+    <p>Tout se sauvegarde automatiquement sur ce téléphone. Tu peux fermer la page et revenir plus tard.</p>
+  </header>
+
+  <div class="progressbox">
+    <div class="progresslabel"><span>Progression du week-end</span><span id="pct">0%</span></div>
+    <div class="progressbar"><div class="progressfill" id="fill"></div></div>
+  </div>
+
+  <div class="questgrid" style="margin-top:12px">
+    <div class="quest"><div class="emoji">🎁</div><b>Blind Box</b><small>La trouver à MINISO et résister jusqu'au soir.</small></div>
+    <div class="quest"><div class="emoji">🧴</div><b>Masque mystère</b><small>Choisir le masque de l'autre chez MOIDA.</small></div>
+    <div class="quest"><div class="emoji">📸</div><b>Photo culte</b><small>Une photo jolie + une photo complètement ridicule.</small></div>
+    <div class="quest"><div class="emoji">🍜</div><b>Ramen inconnu</b><small>Choisir une saveur jamais testée.</small></div>
+    <div class="quest"><div class="emoji">🍬</div><b>Snack secret</b><small>Chacune choisit un snack pour l'autre.</small></div>
+    <div class="quest"><div class="emoji">🪙</div><b>Opération Midas</b><small>Résoudre les énigmes de la Monnaie de Paris.</small></div>
+    <div class="quest"><div class="emoji">🎠</div><b>Retour en 1900</b><small>Entrer dans l'univers des Arts Forains.</small></div>
+    <div class="quest"><div class="emoji">🎪</div><b>Gâteau menteur</b><small>Deviner le trompe-l'œil chez ABRA.</small></div>
+  </div>
+</section>
+
+<section id="train" class="panel">
+  <header class="dayhead day2">
+    <div class="kicker">billets & timing</div>
+    <h2>🚆 Les trains</h2>
+    <p>Les horaires ci-dessous sont ceux du billet fourni. Aucun numéro de réservation ni code-barres n'est repris dans ce fichier.</p>
+  </header>
+
+  <div class="traincard">
+    <div class="kicker">ALLER • SAMEDI 29 AOÛT</div>
+    <div class="trainline">
+      <div><div class="bigtime">06:55</div><div class="traincity">Marseille St-Charles</div></div>
+      <div class="trainarrow">→</div>
+      <div style="text-align:right"><div class="bigtime">10:46</div><div class="traincity">Paris Gare de Lyon</div></div>
+    </div>
+    <div class="notice">💡 Le Jour 1 commence volontairement à <b>12:00</b>, pour laisser le temps de sortir de la gare et déposer les affaires.</div>
+  </div>
+
+  <div class="traincard">
+    <div class="kicker">RETOUR • LUNDI 31 AOÛT</div>
+    <div class="trainline">
+      <div><div class="bigtime">06:12</div><div class="traincity">Paris Gare de Lyon</div></div>
+      <div class="trainarrow">→</div>
+      <div style="text-align:right"><div class="bigtime">09:35</div><div class="traincity">Marseille St-Charles</div></div>
+    </div>
+    <div class="notice">⏰ Objectif prudent : être à Gare de Lyon vers <b>05:40</b>. Préparer vêtements, sacs et billets le dimanche soir. Le billet indique que les portes ferment 2 minutes avant le départ.</div>
+  </div>
+
+  <p class="small">Conseil : garde le PDF original du billet accessible hors connexion sur le téléphone. Ce planning ne remplace pas le titre de transport.</p>
+</section>
+
+<div class="footer">Fait pour un week-end où Paris est beaucoup moins sérieux ✦</div>
+</div>
+
+<script>
+const tabs=[...document.querySelectorAll('.nav button')];
+const panels=[...document.querySelectorAll('.panel')];
+tabs.forEach(b=>b.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active')); panels.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); document.getElementById(b.dataset.tab).classList.add('active');
+  window.scrollTo({top:document.querySelector('.nav').offsetTop-8,behavior:'smooth'});
+}));
+
+const checks=[...document.querySelectorAll('input[type=checkbox][data-key]')];
+checks.forEach(c=>{
+  c.checked=localStorage.getItem('lahna-'+c.dataset.key)==='1';
+  c.addEventListener('change',()=>{localStorage.setItem('lahna-'+c.dataset.key,c.checked?'1':'0');updateProgress();});
+});
+function updateProgress(){
+  const n=checks.filter(c=>c.checked).length;
+  const p=Math.round((n/checks.length)*100);
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('fill').style.width=p+'%';
+}
+updateProgress();
+</script>
+</body>
+</html>
